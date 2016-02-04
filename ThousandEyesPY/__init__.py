@@ -1,1 +1,1 @@
-from ThousandEyesPY import Alerts, THOUSANDEYES_API_URL, PASSWORD, USERNAME
+from ThousandEyesPY import ThousandEyesPY

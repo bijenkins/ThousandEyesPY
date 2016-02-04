@@ -1,21 +1,16 @@
 import requests
 import json
-from thousandeyes_settings import USERNAME, PASSWORD, THOUSANDEYES_API_URL
 
-class ThousandEyesAPI(object):
+class ThousandEyesPY(object):
     """docstring for ThousandEyesAPI"""
+    def __init__(self, USERNAME, PASSWORD):
+        self.USERNAME = USERNAME
+        self.PASSWORD = PASSWORD
 
     def THOUSANDEYES_API_URL(self):
         """ Returns current THOUSANDEYES_API_URL"""
-        return THOUSANDEYES_API_URL
+        return "https://api.thousandeyes.com/"
 
-    def USERNAME(self):
-        """ Returns current USERNAME"""
-        return USERNAME
-
-    def PASSWORD(self):
-        """ Returns current PASSWORD"""
-        return PASSWORD
 
     def _generate_window(self, window_integer=None, window_unit= None):
         """
@@ -66,11 +61,6 @@ class ThousandEyesAPI(object):
         if not isinstance(id, int) and aid is not None:
             raise ValueError('Required Integer or None')
         return str(id)
-
-class Alerts(ThousandEyesAPI):
-    """
-    Interface for acccessing enpoints in the "/alerts" Domain.
-    """
     def active_alerts(self, window_integer=None, window_unit=None, output_format='json', aid=None):
         """
         Access all current alerts for time filter provided, if no time filter
@@ -87,8 +77,8 @@ class Alerts(ThousandEyesAPI):
                         'window': window,
                         'aid:': aid
                   }
-
-        r = requests.get(self.THOUSANDEYES_API_URL() + 'alerts', auth=(self.USERNAME(), self.PASSWORD()), params=payload)
+        print self.USERNAME, self.PASSWORD
+        r = requests.get(self.THOUSANDEYES_API_URL() + 'alerts', auth=(self.USERNAME, self.PASSWORD), params=payload)
         j = json.loads(r.text)
         # print json.dumps(j, indent=4)
         return j
@@ -108,7 +98,7 @@ class Alerts(ThousandEyesAPI):
                         'aid:': aid
                   }
 
-        r = requests.get(self.THOUSANDEYES_API_URL() + 'alerts/' + alert_id, auth=(self.USERNAME(), self.PASSWORD()), params=payload)
+        r = requests.get(self.THOUSANDEYES_API_URL() + 'alerts/' + alert_id, auth=(self.USERNAME, self.PASSWORD), params=payload)
         j = json.loads(r.text)
         # print json.dumps(j, indent=4)
         return j
