@@ -79,6 +79,9 @@ class ThousandEyesPY(object):
                   }
         print self.USERNAME, self.PASSWORD
         r = requests.get(self.THOUSANDEYES_API_URL() + 'alerts', auth=(self.USERNAME, self.PASSWORD), params=payload)
+        # Use requests built in Raise for Status of 400
+        r.raise_for_status()
+        
         j = json.loads(r.text)
         # print json.dumps(j, indent=4)
         return j
@@ -99,6 +102,9 @@ class ThousandEyesPY(object):
                   }
 
         r = requests.get(self.THOUSANDEYES_API_URL() + 'alerts/' + alert_id, auth=(self.USERNAME, self.PASSWORD), params=payload)
+        # Use requests built in Raise for Status of 400
+        r.raise_for_status()
+
         j = json.loads(r.text)
         # print json.dumps(j, indent=4)
         return j
