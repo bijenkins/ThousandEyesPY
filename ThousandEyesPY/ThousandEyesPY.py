@@ -80,7 +80,7 @@ class ThousandEyesPY(object):
                         'window': window,
                         'aid:': aid
                   }
-        print self.USERNAME, self.PASSWORD
+
         r = requests.get(self.THOUSANDEYES_API_URL() + 'alerts', auth=(self.username, self.password), params=payload)
         # Use requests built in Raise for Status of 400
         r.raise_for_status()
