@@ -1,0 +1,223 @@
+### <i class="icon-eye"></i> ThousandEyesPY
+
+ThousandEyesPY is a Python Library for accessing the ThousandEyes API. The library uses requests to access the RESTful API located at http://developer.thousandeyes.com/.
+
+It is currently a work in progress. Currently the "Alerts" are completed. Helper functions for optional parameters are nearly complete.
+
+All functions return a dictionary that you can use as your wish.
+
+Currently HTTP Exceptions are generated from requests.
+
+**Active Alerts**:
+
+```
+>>> from ThousandEyesPY import ThousandEyesPY
+>>> from pprint import pprint
+>>> api = ThousandEyesPY(username="noreply@thousandeyes.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
+>>> active_alerts = api.active_alerts()
+>>> pprint(active_alerts)
+{u'alert': [{u'active': 1,
+             u'agents': [{u'active': 1,
+                          u'agentId': 12,
+                          u'agentName': u'Hong Kong',
+                          u'dateStart': u'2012-12-13 13:15:00',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=12'},
+                         {u'active': 1,
+                          u'agentId': 16,
+                          u'agentName': u'S\xe3o Paulo, Brazil',
+                          u'dateStart': u'2012-12-13 13:15:05',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=16'},
+                         {u'active': 2,
+                          u'agentId': 25,
+                          u'agentName': u'Cape Town, South Africa',
+                          u'dateEnd': u'2014-02-11 01:44:04',
+                          u'dateStart': u'2012-12-13 13:15:00',
+                          u'metricsAtEnd': u'N/A (agent removed from test)',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=25'},
+                         {u'active': 1,
+                          u'agentId': 32,
+                          u'agentName': u'London, UK',
+                          u'dateStart': u'2012-12-13 13:15:00',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=32'},
+                         {u'active': 1,
+                          u'agentId': 146,
+                          u'agentName': u'San Jose, CA',
+                          u'dateStart': u'2013-01-31 05:52:48',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=146'}],
+             u'alertId': 2783,
+             u'apiLinks': [{u'href': u'https://api.thousandeyes.com/tests/822',
+                            u'rel': u'related'},
+                           {u'href': u'https://api.thousandeyes.com/dns/dnssec/822',
+                            u'rel': u'data'}],
+             u'dateStart': u'2012-12-13 13:15:00',
+             u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783',
+             u'ruleExpression': u'Error is present',
+             u'ruleId': 301,
+             u'ruleName': u'Default DNSSEC Alert Rule',
+             u'testId': 822,
+             u'testName': u'thousandeyes.com A',
+             u'type': u'DNSSEC',
+             u'violationCount': 6}],
+ u'pages': {u'current': 1}}
+>>>
+```
+**Alert Detail**:
+
+```
+>>> from ThousandEyesPY import ThousandEyesPY
+>>> from pprint import pprint
+>>> api = ThousandEyesPY(username="noreply@thousandeyes.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
+>>> alert_detail = api.active_alert_detail(alert_id=2783)
+>>> pprint(alert_detail)
+{u'alert': [{u'active': 1,
+             u'agents': [{u'active': 1,
+                          u'agentId': 12,
+                          u'agentName': u'Hong Kong',
+                          u'dateStart': u'2012-12-13 13:15:00',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=12'},
+                         {u'active': 1,
+                          u'agentId': 16,
+                          u'agentName': u'S\xe3o Paulo, Brazil',
+                          u'dateStart': u'2012-12-13 13:15:05',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=16'},
+                         {u'active': 2,
+                          u'agentId': 25,
+                          u'agentName': u'Cape Town, South Africa',
+                          u'dateEnd': u'2014-02-11 01:44:04',
+                          u'dateStart': u'2012-12-13 13:15:00',
+                          u'metricsAtEnd': u'N/A (agent removed from test)',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=25'},
+                         {u'active': 1,
+                          u'agentId': 32,
+                          u'agentName': u'London, UK',
+                          u'dateStart': u'2012-12-13 13:15:00',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=32'},
+                         {u'active': 1,
+                          u'agentId': 146,
+                          u'agentName': u'San Jose, CA',
+                          u'dateStart': u'2013-01-31 05:52:48',
+                          u'metricsAtEnd': u'',
+                          u'metricsAtStart': u'Error details: "No DNSSEC public key(s) for thousandeyes.com A"',
+                          u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783&agentId=146'}],
+             u'alertId': 2783,
+             u'apiLinks': [{u'href': u'https://api.thousandeyes.com/tests/822',
+                            u'rel': u'related'},
+                           {u'href': u'https://api.thousandeyes.com/dns/dnssec/822',
+                            u'rel': u'data'}],
+             u'dateStart': u'2012-12-13 13:15:00',
+             u'permalink': u'https://app.thousandeyes.com/alerts/list/?__a=75&alertId=2783',
+             u'ruleExpression': u'Error is present',
+             u'ruleId': 301,
+             u'ruleName': u'Default DNSSEC Alert Rule',
+             u'testId': 822,
+             u'testName': u'thousandeyes.com A',
+             u'type': u'DNSSEC',
+             u'violationCount': 6}]}
+>>>
+```
+
+**Alert Rules**
+```
+>>> from ThousandEyesPY import ThousandEyesPY
+>>> from pprint import pprint
+>>> api = ThousandEyesPY(username="noreply@thousandeyes.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
+>>> alert_rules = api.alert_rules()
+>>> pprint(alert_rules)
+{u'alertRules': [{u'alertType': u'BGP',
+                  u'default': 1,
+                  u'expression': u'Reachability < 100%',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 322,
+                  u'ruleName': u'Default BGP Alert Rule'},
+                 {u'alertType': u'DNS Server',
+                  u'default': 1,
+                  u'expression': u'Error is present',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [u'noreply@thousandeyes.com'],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 300,
+                  u'ruleName': u'Default DNS Server Alert Rule'},
+                 {u'alertType': u'DNS Trace',
+                  u'default': 1,
+                  u'expression': u'Error is present',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [u'noreply@thousandeyes.com'],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 299,
+                  u'ruleName': u'Default DNS Trace Alert Rule'},
+                 {u'alertType': u'DNSSEC',
+                  u'default': 1,
+                  u'expression': u'Error is present',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [u'noreply@thousandeyes.com'],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 301,
+                  u'ruleName': u'Default DNSSEC Alert Rule'},
+                 {u'alertType': u'HTTP Server',
+                  u'default': 1,
+                  u'expression': u'Error Type is any',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [u'noreply@thousandeyes.com'],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 296,
+                  u'ruleName': u'Default HTTP Alert Rule'},
+                 {u'alertType': u'Network',
+                  u'default': 1,
+                  u'expression': u'Packet Loss \u2265 20%',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [u'noreply@thousandeyes.com'],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 298,
+                  u'ruleName': u'Default Network Alert Rule'},
+                 {u'alertType': u'Page Load',
+                  u'default': 1,
+                  u'expression': u'Page Load is incomplete',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [u'noreply@thousandeyes.com'],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 297,
+                  u'ruleName': u'Default Page Load Alert Rule'},
+                 {u'alertType': u'Web Transaction',
+                  u'default': 1,
+                  u'expression': u'Error is present',
+                  u'minimumSources': 2,
+                  u'notes': u'',
+                  u'notifyOnClear': 0,
+                  u'recipient': [u'noreply@thousandeyes.com'],
+                  u'roundsBeforeTrigger': 1,
+                  u'ruleId': 302,
+                  u'ruleName': u'Default Transaction Alert Rule'}]}
+>>>
+```
