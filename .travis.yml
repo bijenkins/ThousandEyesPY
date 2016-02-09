@@ -5,4 +5,4 @@ python:
 install:
 - pip install -r requirements.txt
 #need command to run tests
-script: unittest_test
+script: python unittest_test.py:
