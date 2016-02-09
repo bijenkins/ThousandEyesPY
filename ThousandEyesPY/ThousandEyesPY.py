@@ -176,7 +176,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
-    def agent_details(self, agent_id=None, aid=None):
+    def agent_details(self, agent_id, aid=None):
         """
         Returns details for an agent, including assigned tests. Enterprise
         agents show utilization data and assigned accounts.
