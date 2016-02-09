@@ -1,5 +1,6 @@
 from ThousandEyesPY import ThousandEyesPY
 from pprint import pprint
+import unittest
 
 def test_agent_list():
     "Test Agent Updates"
@@ -32,6 +33,16 @@ def test_bgp_monitor_list():
     pprint(bgp_monitor_list)
 
 
+class TestThousandEyesPYMethods(unittest.TestCase):
+    """docstring for TestThousandEyesPYMethods"""
+    def test_agent_list(self):
+        "Test Agent Updates"
+        api = ThousandEyesPY(username="noreply@thousandeyes.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
+        agent_list = api.agent_list()
+        self.assertTrue(isinstance(agent_list, dict))
+
+if __name__ == '__main__':
+    unittest.main()
 def main():
     # test_agent_list()
     # test_agent_details()

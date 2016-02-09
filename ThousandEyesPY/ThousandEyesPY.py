@@ -1,5 +1,7 @@
 import requests
 import json
+from decorators import handleError
+
 
 class ThousandEyesPY(object):
     """docstring for ThousandEyesAPI"""
@@ -110,6 +112,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
+    @handleError
     def alert_rules(self, aid=None):
         """
         Recieve the details of a specific Active Alert
@@ -124,7 +127,9 @@ class ThousandEyesPY(object):
 
         r = requests.get(self.THOUSANDEYES_API_URL() + 'alert-rules', auth=(self.username, self.password), params=payload)
         # Use requests built in Raise for Status of 400
+
         r.raise_for_status()
+
 
         j = json.loads(r.text)
         # print json.dumps(j, indent=4)
