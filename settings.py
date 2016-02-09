@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='ThousandEyesPY',
-      version='0.2',
+      version='0.21',
       description='Python API for ThousandEyes API Monitoring Service (WIP)',
       url='http://github.com/bijenkins/ThousandEyesPY',
       author='Billy Jenkins',
