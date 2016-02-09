@@ -1,4 +1,4 @@
-### <i class="icon-eye"></i> ThousandEyesPY
+### <i class="icon-eye"></i> ThousandEyesPY [![Build Status](https://travis-ci.org/bijenkins/ThousandEyesPY.svg?branch=master)](https://travis-ci.org/bijenkins/ThousandEyesPY)
 
 ThousandEyesPY is a Python Library for accessing the ThousandEyes API. The library uses requests to access the RESTful API located at http://developer.thousandeyes.com/.
 
