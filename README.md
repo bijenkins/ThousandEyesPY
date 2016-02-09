@@ -410,7 +410,6 @@ Returns a list of all BGP monitors available to your account in ThousandEyes, in
 >>> from ThousandEyesPY import ThousandEyesPY
 >>> from pprint import pprint
 >>> api = ThousandEyesPY(username="noreply@thousandeyes.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
->>> api = ThousandEyesPY(username="noreply@thousandeyes.com", >>> password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
 >>> bgp_monitor_list = api.bgp_monitor_list()
 >>> pprint(bgp_monitor_list)
 {u'bgpMonitors': [{u'ipAddress': u'195.66.224.51',
