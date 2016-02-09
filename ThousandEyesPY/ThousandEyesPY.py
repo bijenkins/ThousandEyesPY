@@ -109,3 +109,23 @@ class ThousandEyesPY(object):
         j = json.loads(r.text)
         # print json.dumps(j, indent=4)
         return j
+
+    def alert_rules(self, aid=None):
+        """
+        Recieve the details of a specific Active Alert
+        """
+        output_format = self._format_validation()
+        aid = self._aid_validation(aid=aid)
+
+        payload = {
+                        'format': output_format,
+                        'aid:': aid
+                  }
+
+        r = requests.get(self.THOUSANDEYES_API_URL() + 'alert-rules', auth=(self.username, self.password), params=payload)
+        # Use requests built in Raise for Status of 400
+        r.raise_for_status()
+
+        j = json.loads(r.text)
+        # print json.dumps(j, indent=4)
+        return j
