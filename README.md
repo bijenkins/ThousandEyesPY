@@ -10,6 +10,41 @@ Currently HTTP Exceptions are generated from requests.
 
 **Active Alerts**:
 
+Returns a list of all active alerts, active at any given time.
+
+Response:
+
+Sends back a collection of active alerts, either at present, or based on the time range specified, indicating testId and testName, alert rule If no alerts are active during the time range specified, an empty response will be returned.
+
+<table><thead><tr><th>Field</th><th>Data Type</th><th>Units</th><th>Notes</th></tr></thead><tbody><tr><td style="text-align: left;">ruleId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of the alert rule (see <code>/alert-rules</code> endpoint for more detail)</td>
+</tr><tr><td style="text-align: left;">alertId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of the alert; each alert occurrence is assigned a new unique ID</td>
+</tr><tr><td style="text-align: left;">testId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of the test (see <code>/tests/{testId}</code> endpoint for more detail)</td>
+</tr><tr><td style="text-align: left;">testName</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">name of the test</td>
+</tr><tr><td style="text-align: left;">active</td><td style="text-align: left;">boolean</td><td style="text-align: left;">n/a</td><td style="text-align: left;">1 for active, 0 for inactive</td>
+</tr><tr><td style="text-align: left;">ruleExpression</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">string expression of alert rule</td>
+</tr><tr><td style="text-align: left;">dateStart</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">the date/time where an alert rule was triggered</td>
+</tr><tr><td style="text-align: left;">dateEnd</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">the date/time where the alert was marked as cleared</td>
+</tr><tr><td style="text-align: left;">violationCount</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">number of sources currently meeting the alert criteria</td>
+</tr><tr><td style="text-align: left;">ruleName</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">name of the alert rule</td>
+</tr><tr><td style="text-align: left;">permalink</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">permanent link to the test, with the starting round seelcted</td>
+</tr><tr><td style="text-align: left;">type</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">type of alert being triggered</td>
+</tr><tr><td style="text-align: left;">agents</td><td style="text-align: left;">array of agent objects</td><td style="text-align: left;">n/a</td><td style="text-align: left;">array of agents where the alert has at some point been active since the point that the alert was triggered. Not shown on BGP alerts.</td>
+</tr><tr><td style="text-align: left;">monitors</td><td style="text-align: left;">array of monitor objects</td><td style="text-align: left;">n/a</td><td style="text-align: left;">array of monitors where the alert has at some point been active since the point that the alert was triggered. Only shown on BGP alerts.</td>
+</tr><tr><td style="text-align: left;">apiLinks</td><td style="text-align: left;">array of links</td><td style="text-align: left;">n/a</td><td style="text-align: left;">list of hyperlinks to other areas of the API</td>
+</tr></tbody></table>
+
+Agent and Monitor objects (see above) reflect the following content:
+
+<table><thead><tr><th>Field</th><th>Data Type</th><th>Units</th><th>Notes</th></tr></thead><tbody><tr><td style="text-align: left;">dateStart</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">reflects the date that the source began reporting a measurement that exceeded the alert rule’s threshold</td>
+</tr><tr><td style="text-align: left;">dateEnd</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">reflects the earlier of the date that the alert was cleared, or the source reported a measurement that was under the alert rule’s threshold</td>
+</tr><tr><td style="text-align: left;">active</td><td style="text-align: left;">boolean</td><td style="text-align: left;">n/a</td><td style="text-align: left;">if the particular source is alerting when the API is queried, this flag will be set to 1. After an alert has cleared, this flag (regardless of the source’s metrics) will be set to 0, even if the particular source has not cleared the alert rule.</td>
+</tr><tr><td style="text-align: left;">metricsAtStart</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">string representation of the metric at the time that the source began alerting. Note that the alert start and dateStart for a particular source do not need to be the same, as sources may change alerting status throughout an alert’s lifecycle</td>
+</tr><tr><td style="text-align: left;">metricsAtEnd</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">string representation of the metric or metrics being considered in the alert rule at the point that the alert was cleared. If the alert is not yet cleared, this field reflects the last round of data gathered from the source.</td>
+</tr><tr><td style="text-align: left;">agentId/monitorId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of agent or monitor violating the alert rule. See <code>/agents</code> or <code>/bgp-monitors</code> for more detail</td>
+</tr><tr><td style="text-align: left;">agentName/monitorName</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">display name of the agent or monitor violating the alert rule</td>
+</tr><tr><td style="text-align: left;">permalink</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">hyperlink to alerts list, with row expanded and this source selected</td>
+</tr></tbody></table>
+
 ```
 >>> from ThousandEyesPY import ThousandEyesPY
 >>> from pprint import pprint
@@ -71,6 +106,40 @@ Currently HTTP Exceptions are generated from requests.
 >>>
 ```
 **Alert Detail**:
+Returns details about an alert.
+
+Response
+
+Sends back detailed information about a specific alertId. If the alertId doesn’t exist or is inaccessible by your account, an empty response will be returned.
+
+<table><thead><tr><th>Field</th><th>Data Type</th><th>Units</th><th>Notes</th></tr></thead><tbody><tr><td style="text-align: left;">ruleId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of the alert rule (see <code>/alert-rules</code> endpoint for more detail)</td>
+</tr><tr><td style="text-align: left;">alertId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of the alert; each alert occurrence is assigned a new unique ID</td>
+</tr><tr><td style="text-align: left;">testId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of the test (see <code>/tests/{testId}</code> endpoint for more detail)</td>
+</tr><tr><td style="text-align: left;">testName</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">name of the test</td>
+</tr><tr><td style="text-align: left;">active</td><td style="text-align: left;">boolean</td><td style="text-align: left;">n/a</td><td style="text-align: left;">1 for active, 0 for inactive</td>
+</tr><tr><td style="text-align: left;">ruleExpression</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">string expression of alert rule</td>
+</tr><tr><td style="text-align: left;">dateStart</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">the date/time where an alert rule was triggered</td>
+</tr><tr><td style="text-align: left;">dateEnd</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">the date/time where the alert was marked as cleared</td>
+</tr><tr><td style="text-align: left;">violationCount</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">number of sources currently meeting the alert criteria</td>
+</tr><tr><td style="text-align: left;">ruleName</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">name of the alert rule</td>
+</tr><tr><td style="text-align: left;">permalink</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">permanent link to the test, with the starting round seelcted</td>
+</tr><tr><td style="text-align: left;">type</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">type of alert being triggered</td>
+</tr><tr><td style="text-align: left;">agents</td><td style="text-align: left;">array of agent objects</td><td style="text-align: left;">n/a</td><td style="text-align: left;">array of agents where the alert has at some point been active since the point that the alert was triggered. Not shown on BGP alerts.</td>
+</tr><tr><td style="text-align: left;">monitors</td><td style="text-align: left;">array of monitor objects</td><td style="text-align: left;">n/a</td><td style="text-align: left;">array of monitors where the alert has at some point been active since the point that the alert was triggered. Only shown on BGP alerts.</td>
+</tr><tr><td style="text-align: left;">apiLinks</td><td style="text-align: left;">array of links</td><td style="text-align: left;">n/a</td><td style="text-align: left;">list of hyperlinks to other areas of the API</td>
+</tr></tbody></table>
+
+Agent and Monitor objects (see above) reflect the following content:
+
+<table><thead><tr><th>Field</th><th>Data Type</th><th>Units</th><th>Notes</th></tr></thead><tbody><tr><td style="text-align: left;">dateStart</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">reflects the date that the source began reporting a measurement that exceeded the alert rule’s threshold</td>
+</tr><tr><td style="text-align: left;">dateEnd</td><td style="text-align: left;">dateTime</td><td style="text-align: left;">yyyy-MM-dd hh:mm:ss</td><td style="text-align: left;">reflects the earlier of the date that the alert was cleared, or the source reported a measurement that was under the alert rule’s threshold</td>
+</tr><tr><td style="text-align: left;">active</td><td style="text-align: left;">boolean</td><td style="text-align: left;">n/a</td><td style="text-align: left;">if the particular source is alerting when the API is queried, this flag will be set to 1. After an alert has cleared, this flag (regardless of the source’s metrics) will be set to 0, even if the particular source has not cleared the alert rule.</td>
+</tr><tr><td style="text-align: left;">metricsAtStart</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">string representation of the metric at the time that the source began alerting. Note that the alert start and dateStart for a particular source do not need to be the same, as sources may change alerting status throughout an alert’s lifecycle</td>
+</tr><tr><td style="text-align: left;">metricsAtEnd</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">string representation of the metric or metrics being considered in the alert rule at the point that the alert was cleared. If the alert is not yet cleared, this field reflects the last round of data gathered from the source.</td>
+</tr><tr><td style="text-align: left;">agentId/monitorId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of agent or monitor violating the alert rule. See <code>/agents</code> or <code>/bgp-monitors</code> for more detail</td>
+</tr><tr><td style="text-align: left;">agentName/monitorName</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">display name of the agent or monitor violating the alert rule</td>
+</tr><tr><td style="text-align: left;">permalink</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">hyperlink to alerts list, with row expanded and this source selected</td>
+</tr></tbody></table>
 
 ```
 >>> from ThousandEyesPY import ThousandEyesPY
@@ -133,6 +202,22 @@ Currently HTTP Exceptions are generated from requests.
 ```
 
 **Alert Rules**:
+Returns a list of all alert rules configured under your account in ThousandEyes.
+
+Sends back a collection of alert rules, indicating ruleID, whether or not the alert is enabled, recipient lists, and the rule criteria and clearing logic. Default rules for each type are indicated with a bit response (1 or 0); default alert rules are assigned by default to each type of test to which they apply.
+
+<table><thead><tr><th>Field</th><th>Data Type</th><th>Units</th><th>Notes</th></tr></thead><tbody><tr><td style="text-align: left;">enabled</td><td style="text-align: left;">boolean</td><td style="text-align: left;">n/a</td><td style="text-align: left;">1 for enabled, 0 for disabled</td>
+</tr><tr><td style="text-align: left;">ruleId</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">unique ID of the alert rule</td>
+</tr><tr><td style="text-align: left;">ruleName</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">name of the alert rule</td>
+</tr><tr><td style="text-align: left;">notes</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">additional content sent to notification recipients in alert emails</td>
+</tr><tr><td style="text-align: left;">expression</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">string expression of alert rule</td>
+</tr><tr><td style="text-align: left;">notifyOnClear</td><td style="text-align: left;">boolean</td><td style="text-align: left;">n/a</td><td style="text-align: left;">1 to send notification when alert clears</td>
+</tr><tr><td style="text-align: left;">roundsBeforeTrigger</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">Valid options are 1-4; indicates the number of rounds where the criteria are met before triggering an alert</td>
+</tr><tr><td style="text-align: left;">default</td><td style="text-align: left;">boolean</td><td style="text-align: left;">n/a</td><td style="text-align: left;">Alert rules allow up to 1 alert rule to be selected as a default for each type. By checking the default option, this alert rule will be automatically included on subsequently created tests that test a metric used in alerting here</td>
+</tr><tr><td style="text-align: left;">recipient</td><td style="text-align: left;">array of email addresses</td><td style="text-align: left;">n/a</td><td style="text-align: left;">notification recipients are specified in an array of email addresses</td>
+</tr><tr><td style="text-align: left;">alertType</td><td style="text-align: left;">string</td><td style="text-align: left;">n/a</td><td style="text-align: left;">type of alert rule, as determined by metric selection</td>
+</tr><tr><td style="text-align: left;">minimumSources</td><td style="text-align: left;">integer</td><td style="text-align: left;">n/a</td><td style="text-align: left;">the minimum number of agents or monitors that must meet the specified criteria in order to trigger the alert</td>
+</tr></tbody></table>
 ```
 >>> from ThousandEyesPY import ThousandEyesPY
 >>> from pprint import pprint
