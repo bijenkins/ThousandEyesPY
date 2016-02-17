@@ -20,13 +20,13 @@ class TestThousandEyesPYMethods(unittest.TestCase):
 
     def test_test_list(self):
         "Test Test List Grab"
-        api = ThousandEyesPY(username="noreply@.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
+        api = ThousandEyesPY(username="noreply@thousandeyes.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
         test_list = api.test_list()
         self.assertTrue(isinstance(test_list, dict))
 
     def test_test_type_list(self):
         "Test Test List by type Grab"
-        api = ThousandEyesPY(username="noreply@.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
+        api = ThousandEyesPY(username="noreply@thousandeyes.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
         test_list = api.test_list(type="bgp")
         self.assertTrue(isinstance(test_list, dict))
 
