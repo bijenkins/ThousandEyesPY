@@ -1,6 +1,8 @@
 import unittest
 from ThousandEyesPY import ThousandEyesPY
 from ThousandEyesPY.exceptions import AuthenticationException
+
+
 class TestThousandEyesPYMethods(unittest.TestCase):
     """docstring for TestThousandEyesPYMethods"""
     def test_agent_list(self):
@@ -15,5 +17,6 @@ class TestThousandEyesPYMethods(unittest.TestCase):
             api = ThousandEyesPY(username="noreply@.com", password="g351mw5xqhvkmh1vq6zfm51c62wyzib2")
             api.alert_rules()
         self.assertTrue('Bad Authentication' in str(context.exception))
+
 if __name__ == '__main__':
     unittest.main()

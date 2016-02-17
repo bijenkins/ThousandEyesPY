@@ -2,7 +2,7 @@ from exceptions import *
 # AuthenticationException, BadRequestException
 import requests
 
-def handleError(function):
+def ErrorHandle(function):
     def handleProblems(*args, **kwargs):
         try:
             return function(*args, **kwargs)

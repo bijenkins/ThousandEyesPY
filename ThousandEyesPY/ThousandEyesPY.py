@@ -1,6 +1,6 @@
 import requests
 import json
-from decorators import handleError
+from decorators import ErrorHandle
 
 
 class ThousandEyesPY(object):
@@ -68,6 +68,7 @@ class ThousandEyesPY(object):
             raise ValueError('Required Integer or None')
         return str(id)
 
+    @ErrorHandle
     def active_alerts(self, window_integer=None, window_unit=None, aid=None):
         """
         Access all current alerts for time filter provided, if no time filter
@@ -91,6 +92,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
+    @ErrorHandle
     def active_alert_detail(self, alert_id=None, aid=None):
         """
         Recieve the details of a specific Active Alert
@@ -112,7 +114,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
-    @handleError
+    @ErrorHandle
     def alert_rules(self, aid=None):
         """
         Recieve the details of a specific Active Alert
@@ -135,6 +137,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
+    @ErrorHandle
     def agent_list(self, aid=None):
         """
         Returns a list of all agents available to your account in ThousandEyes,
@@ -181,6 +184,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
+    @ErrorHandle
     def agent_details(self, agent_id, aid=None):
         """
         Returns details for an agent, including assigned tests. Enterprise
@@ -226,6 +230,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
+    @ErrorHandle
     def update_agent(self, agent_id, aid=None, agentName=None, accounts=None, tests=None):
         """
 
@@ -305,6 +310,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
+    @ErrorHandle
     def delete_agent(self, agent_id, aid=None):
         """
         Deletes an Enterprise Agent from ThousandEyes. Note: this feature can
@@ -361,6 +367,7 @@ class ThousandEyesPY(object):
         # print json.dumps(j, indent=4)
         return j
 
+    @ErrorHandle
     def bgp_monitor_list(self, aid=None):
         """
         Returns a list of all BGP monitors available to your account in
@@ -392,6 +399,58 @@ class ThousandEyesPY(object):
                   }
 
         r = requests.get(self.THOUSANDEYES_API_URL() + 'bgp-monitors', auth=(self.username, self.password), params=payload)
+        # Use requests built in Raise for Status of 400
+        r.raise_for_status()
+
+        j = json.loads(r.text)
+        # print json.dumps(j, indent=4)
+        return j
+
+    @ErrorHandle
+    def test_list(self, aid=None, type=None):
+        """
+        Returns a list of all tests configured in ThousandEyes. Also returns
+        data for saved events, which are indicated by a boolean field,
+
+        Response
+
+        Sends back a collection of tests. See Test Metadata page for
+        information on fields returned by this endpoint.
+
+        {
+            "test": [
+                {
+                    "enabled": 1,
+                    "testId": 817,
+                    "savedEvent": 0,
+                    "liveShare": 0,
+                    "testName": "http://www.thousandeyes.com",
+                    "type": "http-server",
+                    "interval": 900,
+                    "url": "http://www.thousandeyes.com",
+                    "modifiedDate": "2013-05-11 02:02:21",
+                    "networkMeasurements": 1,
+                    "createdBy": "API Sandbox User (noreply@thousandeyes.com)",
+                    "modifiedBy": "API Sandbox User (noreply@thousandeyes.com)",
+                    "createdDate": "2012-06-28 19:33:12",
+                    "apiLinks": [...]
+                },
+        		...
+            ]
+        }
+        """
+        output_format = self._format_validation()
+        aid = self._aid_validation(aid=aid)
+
+        payload = {
+                        'format': output_format,
+                        'aid:': aid
+                  }
+
+        if not type:
+            r = requests.get(self.THOUSANDEYES_API_URL() + 'tests', auth=(self.username, self.password), params=payload)
+        elif type:
+            r = requests.get(self.THOUSANDEYES_API_URL() + 'tests/' + type, auth=(self.username, self.password), params=payload)
         # Use requests built in Raise for Status of 400
         r.raise_for_status()
 
